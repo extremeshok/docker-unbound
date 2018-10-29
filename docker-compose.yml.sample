@@ -1,0 +1,19 @@
+###### Unbound is a validating, recursive, and caching DNS resolver.
+  extremeshok-unbound:
+    image: extremeshok/unbound:latest
+    build: ./Dockerfiles/unbound
+    command: /usr/sbin/unbound
+    environment:
+      - TZ=${TZ}
+#      volumes:
+#        - ./data/conf/unbound/unbound.conf:/etc/unbound/unbound.conf:ro
+#        - ./data/conf/unbound/unbound.conf.d/:/etc/unbound/unbound.conf.d/:ro
+    restart: always
+    tty: true
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=${SYSCTL_IPV6_DISABLED:-0}
+    networks:
+      apollo-legacy-network:
+        ipv4_address: ${IPV4_NETWORK:-172.22.1}.254
+        aliases:
+          - unbound
