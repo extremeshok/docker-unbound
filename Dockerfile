@@ -9,7 +9,6 @@ RUN apk add --update --no-cache \
 	openssl \
 	drill \
 	&& curl -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache \
-	&& chown root:unbound /etc/unbound \
 	&& chmod 775 /etc/unbound \
 	&& adduser unbound tty
 
