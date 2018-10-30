@@ -1,8 +1,6 @@
 ###### Unbound is a validating, recursive, and caching DNS resolver.
   extremeshok-unbound:
     image: extremeshok/unbound:latest
-    build: ./Dockerfiles/unbound
-    command: /usr/sbin/unbound
     environment:
       - TZ=${TZ}
 #      volumes:
