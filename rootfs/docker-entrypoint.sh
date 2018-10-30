@@ -13,4 +13,4 @@ curl -#o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
 echo "Enable remote control"
 /usr/sbin/unbound-control-setup
 
-exec "$@"
+exec /usr/sbin/unbound
