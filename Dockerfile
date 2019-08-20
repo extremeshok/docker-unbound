@@ -10,9 +10,9 @@ RUN apk add --update --no-cache \
 	tzdata \
 	unbound \
 	&& curl -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache \
+	&& adduser unbound tty \
 	&& chown root:unbound /etc/unbound \
-	&& adduser unbound tty
-	&& chmod 775 /etc/unbound \
+	&& chmod 775 /etc/unbound
 
 EXPOSE 53/udp 53/tcp
 
