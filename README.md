@@ -11,3 +11,6 @@ Alpine latest
 log to console(tty)
 remote-control enabled
 secured for lan
+
+# environment
+UNBOUND_ENABLE_IPV6=false (set to true to enable ipv6 support)
