@@ -8,9 +8,12 @@ View **docker-compose-sample.yml** in the source repository for usage
 
 # features
 Alpine latest
-log to console(tty)
-remote-control enabled
-secured for lan
+Log to console(tty)
+Remote-control enabled
+Secured for lan
+Highly optimized
+Memory caching
+Sane min-TTL and max-TTL
 
 # environment
 UNBOUND_ENABLE_IPV6=false (set to true to enable ipv6 support)
