@@ -20,10 +20,13 @@ echo "Receiving anchor key..."
 echo "Receiving root hints..."
 curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
 
+echo "Configure Storage"
+mkdir -p /etc/unbound/keys
+chmod +w /etc/unbound/keys
+chown -R unbound /etc/unbound
+
 echo "Enable remote control"
 /usr/sbin/unbound-control-setup
-
-chown -R unbound /etc/unbound
 
 if [ "$XS_ENABLE_IPV6" == "yes" ] || [ "$XS_ENABLE_IPV6" == "true" ] || [ "$XS_ENABLE_IPV6" == "on" ] || [ "$XS_ENABLE_IPV6" == "1" ] ; then
   sed -i "s/do-ip6: no/do-ip6: yes/g" /etc/unbound/unbound.conf
@@ -33,6 +36,12 @@ else
   sed -i "s/do-ip6: yes/do-ip6: no/g" /etc/unbound/unbound.conf
   sed -i "s/prefer-ip6: yes/prefer-ip6: no/g" /etc/unbound/unbound.conf
   echo "IPv6 Disabled"
+fi
+
+if [ unbound-checkconf /etc/unbound/unbound.conf ] ; then
+  echo "ERROR: CONFIG DAMAGED, sleeping ......"
+  sleep 1d
+  exit 1
 fi
 
 exec /usr/sbin/unbound
