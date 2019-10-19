@@ -25,8 +25,8 @@ mkdir -p /etc/unbound/keys
 chmod +w /etc/unbound/keys
 chown -R unbound /etc/unbound
 
-echo "Enable remote control"
-/usr/sbin/unbound-control-setup
+echo "Enable remote control and init keys"
+/usr/sbin/unbound-control-setup -d /etc/unbound/keys/
 
 if [ "$XS_ENABLE_IPV6" == "yes" ] || [ "$XS_ENABLE_IPV6" == "true" ] || [ "$XS_ENABLE_IPV6" == "on" ] || [ "$XS_ENABLE_IPV6" == "1" ] ; then
   sed -i "s/do-ip6: no/do-ip6: yes/g" /etc/unbound/unbound.conf
@@ -38,7 +38,7 @@ else
   echo "IPv6 Disabled"
 fi
 
-unbound-checkconf /etc/unbound/unbound.conf
+/usr/sbin/unbound-checkconf /etc/unbound/unbound.conf
 result=$?
 if [ "$result" != "0" ] ; then
   echo "ERROR: CONFIG DAMAGED, sleeping ......"
