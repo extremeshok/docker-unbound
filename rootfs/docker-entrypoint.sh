@@ -38,7 +38,9 @@ else
   echo "IPv6 Disabled"
 fi
 
-if [ unbound-checkconf /etc/unbound/unbound.conf ] ; then
+unbound-checkconf /etc/unbound/unbound.conf
+result=$?
+if [ "$result" != "0" ] ; then
   echo "ERROR: CONFIG DAMAGED, sleeping ......"
   sleep 1d
   exit 1
