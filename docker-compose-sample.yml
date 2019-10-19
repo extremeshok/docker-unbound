@@ -7,6 +7,7 @@
 #      volumes:
 #        - ./data/conf/unbound/unbound.conf:/etc/unbound/unbound.conf:ro
 #        - ./data/conf/unbound/unbound.conf.d/:/etc/unbound/unbound.conf.d/:ro
+#        - ./data/conf/unbound/keys/:/etc/unbound/keys/:rw
     restart: always
     tty: true
     sysctls:

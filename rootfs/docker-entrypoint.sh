@@ -15,10 +15,10 @@ chown root:tty /dev/console
 chmod g+rw /dev/console
 
 echo "Receiving anchor key..."
-/usr/sbin/unbound-anchor -a /etc/unbound/trusted-key.key
+/usr/sbin/unbound-anchor -a /etc/unbound/keys/trusted.key
 
 echo "Receiving root hints..."
-curl -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
 
 echo "Enable remote control"
 /usr/sbin/unbound-control-setup
