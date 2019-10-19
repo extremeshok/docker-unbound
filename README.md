@@ -13,7 +13,9 @@ View **docker-compose-sample.yml** in the source repository for usage
 - Secured for lan
 - Highly optimized
 - Memory caching
+- Low CPU overhead (single thread)
 - Sane min-TTL and max-TTL
+- keys are saved to /etc/unbound/keys/
 
 # environment
 UNBOUND_ENABLE_IPV6=false (set to true to enable ipv6 support)
