@@ -14,15 +14,17 @@ echo "Setting console permissions..."
 chown root:tty /dev/console
 chmod g+rw /dev/console
 
+echo "Configure Storage"
+mkdir -p /etc/unbound/keys
+chmod +w /etc/unbound/keys
+
 echo "Receiving anchor key..."
 /usr/sbin/unbound-anchor -a /etc/unbound/keys/trusted.key
 
 echo "Receiving root hints..."
 curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
 
-echo "Configure Storage"
-mkdir -p /etc/unbound/keys
-chmod +w /etc/unbound/keys
+echo "Correct ownership of /etc/unbound"
 chown -R unbound /etc/unbound
 
 echo "Enable remote control and init keys"
