@@ -47,5 +47,3 @@ if [ "$result" != "0" ] ; then
   sleep 1d
   exit 1
 fi
-
-exec /usr/sbin/unbound

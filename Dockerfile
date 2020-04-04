@@ -15,9 +15,12 @@ RUN apk add --update --no-cache \
 	&& chmod 775 /etc/unbound
 
 EXPOSE 53/udp 53/tcp
+EXPOSE 8953/tcp
 
 COPY ./rootfs /
 
 RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/usr/sbin/unbound"]
