@@ -22,5 +22,3 @@ COPY ./rootfs /
 RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
-CMD ["/usr/sbin/unbound"]
