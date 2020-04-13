@@ -14,11 +14,12 @@ RUN apk add --update --no-cache \
 	&& chown root:unbound /etc/unbound \
 	&& chmod 775 /etc/unbound
 
-EXPOSE 53/udp 53/tcp
-EXPOSE 8953/tcp
+EXPOSE 53/udp 53/tcp 8953/tcp
 
 COPY ./rootfs /
 
 RUN chmod +x /docker-entrypoint.sh
+
+HEALTHCHECK --interval=5s --timeout=5s CMD nslookup google.com 127.0.0.1
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
