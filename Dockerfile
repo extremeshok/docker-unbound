@@ -20,6 +20,6 @@ COPY ./rootfs /
 
 RUN chmod +x /docker-entrypoint.sh
 
-HEALTHCHECK --interval=5s --timeout=5s CMD nslookup google.com 127.0.0.1
+HEALTHCHECK --interval=5s --timeout=5s CMD nslookup healthcheck.unbound 127.0.0.1
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
