@@ -9,7 +9,6 @@ RUN apk add --update --no-cache \
 	openssl \
 	tzdata \
 	unbound \
-	&& curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache \
 	&& adduser unbound tty \
 	&& chown root:unbound /etc/unbound \
 	&& chmod 775 /etc/unbound

@@ -17,6 +17,10 @@ View **docker-compose-sample.yml** in the source repository for usage
 - Sane min-TTL and max-TTL
 - keys are saved to /etc/unbound/keys/
 - HEALTHCHECK activated
+- Downloads root.hints on first run
+- Will download a new root.hints on start when it is older than 7days.
+- DNSSEC enabled
 
 # environment
 UNBOUND_ENABLE_IPV6=false (set to true to enable ipv6 support)
+UNBOUND_NUM_THREADS=1 (set to number of threads required)

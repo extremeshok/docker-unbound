@@ -3,7 +3,8 @@
     image: extremeshok/unbound:latest
     environment:
       - TZ=${TZ}
-      - UNBOUND_ENABLE_IPV6=false
+      - UNBOUND_ENABLE_IPV6=true
+      - UNBOUND_NUM_THREADS=2
 #      volumes:
 #        - ./data/conf/unbound/unbound.conf:/etc/unbound/unbound.conf:ro
 #        - ./data/conf/unbound/unbound.conf.d/:/etc/unbound/unbound.conf.d/:ro

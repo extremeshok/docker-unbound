@@ -9,6 +9,7 @@
 shopt -s nocaseglob
 
 XS_ENABLE_IPV6=${UNBOUND_ENABLE_IPV6:-no}
+XS_NUM_THREADS=${UNBOUND_NUM_THREADS:-1}
 
 echo "Setting console permissions..."
 chown root:tty /dev/console
@@ -21,8 +22,17 @@ chmod +w /etc/unbound/keys
 echo "Receiving anchor key..."
 /usr/sbin/unbound-anchor -a /etc/unbound/keys/trusted.key
 
-echo "Receiving root hints..."
-curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+if [ ! -f "/etc/unbound/root.hints" ] ; then
+    echo "Receiving root.hints..."
+    curl --connect-timeout 10 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+else
+    file_time=$(stat --format='%Y' "/etc/unbound/root.hints")
+    current_time=$(date +%s)
+    if (( file_time < ( current_time - ( 60 * 60 * 24 * 7 ) ) )); then #older than 7 days
+        echo "Updating root.hints..."
+        curl --connect-timeout 10 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+    fi
+fi
 
 echo "Correct ownership of /etc/unbound"
 chown -R unbound /etc/unbound
@@ -39,6 +49,10 @@ else
   sed -i "s/prefer-ip6: yes/prefer-ip6: no/g" /etc/unbound/unbound.conf
   echo "IPv6 Disabled"
 fi
+
+sed -i "s/num-threads: .*/num-threads: ${XS_NUM_THREADS}/g" /etc/unbound/unbound.conf
+echo "Num-threads set to ${XS_NUM_THREADS}"
+
 
 /usr/sbin/unbound-checkconf /etc/unbound/unbound.conf
 result=$?
