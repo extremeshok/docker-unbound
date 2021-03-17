@@ -26,7 +26,7 @@ if [ ! -f "/etc/unbound/root.hints" ] ; then
     echo "Receiving root.hints..."
     curl --connect-timeout 10 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
 else
-    file_time=$(stat --format='%Y' "/etc/unbound/root.hints")
+    file_time=$(stat -c '%Y' "/etc/unbound/root.hints")
     current_time=$(date +%s)
     if (( file_time < ( current_time - ( 60 * 60 * 24 * 7 ) ) )); then #older than 7 days
         echo "Updating root.hints..."
