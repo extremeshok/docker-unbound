@@ -8,10 +8,10 @@ RUN echo "**** Install Packages ****" \
 	openssl \
     tcsh \
 	tzdata \
-	unbound \
+	unbound
 
-
-COPY ./rootfs /
+# add local files
+COPY rootfs/ /
 
 RUN echo "**** configure ****" \
 && adduser unbound tty \
