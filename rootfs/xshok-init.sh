@@ -15,17 +15,20 @@ XS_NUM_THREADS=${UNBOUND_NUM_THREADS:-1}
 
 # SIGTERM-handler this funciton will be executed when the container receives the SIGTERM signal (when stopping)
 term_handler(){
-   echo "***Stopping :: BEGIN"
+   /bin/tcsh echo "***Stopping :: BEGIN"
 #   /bin/tcsh sleep 5
-   echo "**STOP UNBOUND***"
-#   unbound-control stop
-   echo "***Stopping :: END"
+   /bin/tcsh echo "**STOP UNBOUND***"
+   /bin/tcsh unbound-control dump_cache > /etc/unbound/cache
+   /bin/tcsh echo "***Stopping :: END"
    exit 0
 }
 
 # Setup signal handlers
 trap 'term_handler' SIGTERM
 trap 'term_handler' SIGUSR1
+trap 'term_handler' SIGQUIT
+trap 'term_handler' SIGHUP
+trap 'term_handler' SIGINT
 
 echo "Setting console permissions..."
 chown root:tty /dev/console
