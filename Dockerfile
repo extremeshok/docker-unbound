@@ -14,10 +14,10 @@ RUN echo "**** Install Packages ****" \
 COPY rootfs/ /
 
 RUN echo "**** configure ****" \
-&& adduser unbound tty \
-&& chown root:unbound /etc/unbound \
-&& chmod 775 /etc/unbound \
-chmod +x /xshok-init.sh
+    && adduser unbound tty \
+    && chown root:unbound /etc/unbound \
+    && chmod 775 /etc/unbound \
+    && chmod +x /xshok-init.sh
 
 WORKDIR /tmp/
 
