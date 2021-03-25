@@ -14,7 +14,7 @@ RUN apk add --update --no-cache \
 
 COPY ./rootfs /
 
-RUN chmod +x /docker-entrypoint.sh
+RUN chmod +x /xshok-init.sh
 
 WORKDIR /tmp/
 
@@ -23,7 +23,6 @@ EXPOSE 53/udp 53/tcp 8953/tcp
 # "when the SIGTERM signal is sent, it immediately quits and all established connections are closed"
 # "graceful stop is triggered when the SIGUSR1 signal is sent "
 STOPSIGNAL SIGUSR1
-
 
 HEALTHCHECK --interval=5s --timeout=5s CMD nslookup healthcheck.unbound.local 127.0.0.1
 

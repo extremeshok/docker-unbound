@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-bash /xshok-init.sh 
+bash /xshok-init.sh
 
 # while ! bash /xshok-init.sh ; do
 #   echo "Waiting for init to complete"
