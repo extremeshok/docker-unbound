@@ -12,6 +12,21 @@ shopt -s nocaseglob
 XS_ENABLE_IPV6=${UNBOUND_ENABLE_IPV6:-no}
 XS_NUM_THREADS=${UNBOUND_NUM_THREADS:-1}
 
+
+# SIGTERM-handler this funciton will be executed when the container receives the SIGTERM signal (when stopping)
+term_handler(){
+   echo "***Stopping :: BEGIN"
+   /bin/tcsh sleep 5
+   echo "**STOP UNBOUND***"
+   unbound-control stop
+   echo "***Stopping :: END"
+   exit 0
+}
+
+# Setup signal handlers
+trap 'term_handler' SIGTERM
+
+
 echo "Setting console permissions..."
 chown root:tty /dev/console
 chmod g+rw /dev/console
