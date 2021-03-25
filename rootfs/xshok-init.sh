@@ -16,16 +16,16 @@ XS_NUM_THREADS=${UNBOUND_NUM_THREADS:-1}
 # SIGTERM-handler this funciton will be executed when the container receives the SIGTERM signal (when stopping)
 term_handler(){
    echo "***Stopping :: BEGIN"
-   /bin/tcsh sleep 5
+#   /bin/tcsh sleep 5
    echo "**STOP UNBOUND***"
-   unbound-control stop
+#   unbound-control stop
    echo "***Stopping :: END"
    exit 0
 }
 
 # Setup signal handlers
 trap 'term_handler' SIGTERM
-
+trap 'term_handler' SIGUSR1
 
 echo "Setting console permissions..."
 chown root:tty /dev/console
@@ -34,9 +34,6 @@ chmod g+rw /dev/console
 echo "Configure Storage"
 mkdir -p /etc/unbound/keys
 chmod +w /etc/unbound/keys
-
-echo "Receiving anchor key..."
-/usr/sbin/unbound-anchor -a /etc/unbound/keys/trusted.key
 
 if [ ! -f "/etc/unbound/root.hints" ] ; then
     echo "Receiving root.hints..."
@@ -49,6 +46,9 @@ else
         curl --connect-timeout 10 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 60 -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
     fi
 fi
+
+echo "Receiving anchor key..."
+/usr/sbin/unbound-anchor -4 -r /etc/unbound/root.hints -a /etc/unbound/keys/trusted.key
 
 echo "Correct ownership of /etc/unbound"
 chown -R unbound /etc/unbound
