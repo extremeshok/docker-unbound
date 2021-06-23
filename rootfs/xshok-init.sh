@@ -51,9 +51,8 @@ else
   echo "IPv6 Disabled"
 fi
 
-sed -i "s/num-threads: .*/num-threads: ${XS_NUM_THREADS}/g" /etc/unbound/unbound.conf
-echo "Num-threads set to ${XS_NUM_THREADS}"
-
+# Force threads to 1
+sed -i "s/num-threads: .*/num-threads: 1/g" /etc/unbound/unbound.conf
 
 /usr/sbin/unbound-checkconf /etc/unbound/unbound.conf
 result=$?

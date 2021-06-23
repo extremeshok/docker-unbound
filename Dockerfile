@@ -6,7 +6,6 @@ RUN echo "**** Install Packages ****" \
 && apk add --update --no-cache \
 	drill \
 	openssl \
-    tcsh \
 	tzdata \
 	unbound
 

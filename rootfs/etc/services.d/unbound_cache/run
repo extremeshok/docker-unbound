@@ -1,0 +1,23 @@
+#!/usr/bin/with-contenv sh
+
+while ! unbound-control status 2> /dev/null ; do
+   echo "Waiting for init to complete";
+   sleep 5s;
+done
+
+if [ -f "/etc/unbound/keys/cache.db" ] ; then
+  echo "Loading Persistent Cache"
+  unbound-control load_cache < "/etc/unbound/keys/cache.db"
+fi
+
+while true; do
+  sleep 1800s #30min
+  while ! unbound-control dump_cache > "/tmp/unbound.cache" 2> /dev/null ; do
+     echo "Re-trying to save cache";
+     sleep 10s;
+  done
+  if [ -f "/tmp/unbound.cache" ] ; then
+    echo "Saving Persistent Cache"
+    mv -f "/tmp/unbound.cache" "/etc/unbound/keys/cache.db"
+  fi
+done
