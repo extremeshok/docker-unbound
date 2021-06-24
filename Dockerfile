@@ -15,8 +15,11 @@ COPY rootfs/ /
 RUN echo "**** configure ****" \
     && adduser unbound tty \
     && chown root:unbound /etc/unbound \
-    && chmod 775 /etc/unbound \
-    && chmod +x /xshok-init.sh
+    && chmod 775 /etc/unbound
+
+RUN echo "**** Correct permissions ****" \
+  && chmod +x /etc/services.d/*/run \
+  && chmod +x /xshok-*.sh
 
 WORKDIR /tmp/
 
