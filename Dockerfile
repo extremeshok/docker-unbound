@@ -18,8 +18,8 @@ RUN echo "**** configure ****" \
     && chmod 775 /etc/unbound
 
 RUN echo "**** Correct permissions ****" \
-  && chmod +x /etc/services.d/*/run \
-  && chmod +x /xshok-*.sh
+  && chmod 755 /etc/services.d/*/run \
+  && chmod 755 /xshok-*.sh
 
 WORKDIR /tmp/
 
